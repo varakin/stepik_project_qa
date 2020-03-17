@@ -1,5 +1,6 @@
 from .pages.product_page import ProductPage
 import pytest
+from .pages.basket_page import BasketPage
 
 @pytest.mark.skip
 def test_guest_can_add_product_to_basket(browser):
@@ -43,3 +44,11 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     page.open()
     page.press_add_product()
     page.should_disappeared()
+
+def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/ru/"
+    page = BasketPage(browser, link)
+    page.open()
+    page.go_to_basket()
+    page.should_empty_basket()
+    page.should_text_about_empty_basket()
